@@ -145,6 +145,6 @@ export const recipes = Array.from({ length: 30 }).flatMap((_, i) =>
     ...r,
     id: i * baseRecipes.length + index + 1,
     title: `${r.title} (${i + 1})`,
-    views: r.views * 3 - 123 + i * 13,
+    views: r.views * 3 + 123 + i * 13,
   })),
 );
