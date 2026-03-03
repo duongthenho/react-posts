@@ -8,9 +8,11 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import RecipeList from "./pages/RecipeList";
 import RecipeDetail from "./pages/RecipeDetail";
 import Layout from "./components/Layout";
+import ScrollToTop from "./components/ScrollToTop";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <BrowserRouter>
+    <ScrollToTop />
     <Layout>
       <Routes>
         <Route path="/" element={<RecipeList />} />
