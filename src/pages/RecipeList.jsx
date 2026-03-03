@@ -42,7 +42,33 @@ function RecipeList() {
     start,
     start + PAGE_SIZE
   );
+  const getPages = () => {
+  const delta = 1; // số trang hai bên page hiện tại
+  const pages = [];
 
+  const left = Math.max(2, page - delta);
+  const right = Math.min(totalPages - 1, page + delta);
+
+  pages.push(1);
+
+  if (left > 2) {
+    pages.push("...");
+  }
+
+  for (let i = left; i <= right; i++) {
+    pages.push(i);
+  }
+
+  if (right < totalPages - 1) {
+    pages.push("...");
+  }
+
+  if (totalPages > 1) {
+    pages.push(totalPages);
+  }
+
+  return pages;
+};
   return (
     <div className="container py-4">
       {/* filter */}
@@ -158,19 +184,25 @@ function RecipeList() {
               </button>
             </li>
 
-            {Array.from({ length: totalPages }).map((_, i) => (
-              <li
-                key={i}
-                className={`page-item ${page === i + 1 ? "active" : ""}`}
-              >
-                <button
-                  className="page-link"
-                  onClick={() => setPage(i + 1)}
+            {getPages().map((p, i) =>
+              p === "..." ? (
+                <li key={`dot-${i}`} className="page-item disabled">
+                  <span className="page-link">…</span>
+                </li>
+              ) : (
+                <li
+                  key={p}
+                  className={`page-item ${page === p ? "active" : ""}`}
                 >
-                  {i + 1}
-                </button>
-              </li>
-            ))}
+                  <button
+                    className="page-link"
+                    onClick={() => setPage(p)}
+                  >
+                    {p}
+                  </button>
+                </li>
+              )
+            )}
 
             <li className={`page-item ${page === totalPages ? "disabled" : ""}`}>
               <button
