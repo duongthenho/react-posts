@@ -1,12 +1,49 @@
+import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { recipes } from "../data/recipes";
+import { API_BASE_URL } from "../constants/constants";
 
 function RecipeDetail() {
   const { id } = useParams();
-  const recipe = recipes.find((r) => r.id === Number(id));
+  const [recipe, setRecipe] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchRecipe = async () => {
+      try {
+        setLoading(true);
+
+        const res = await fetch(
+          `${API_BASE_URL}/recipes/${id}`
+        );
+
+        const data = await res.json();
+
+        setRecipe(data || null);
+      } catch (err) {
+        console.error("Fetch detail error:", err);
+        setRecipe(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchRecipe();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="container py-4">
+        Đang tải...
+      </div>
+    );
+  }
 
   if (!recipe) {
-    return <div className="container py-4">Không tìm thấy công thức</div>;
+    return (
+      <div className="container py-4">
+        Không tìm thấy công thức
+      </div>
+    );
   }
 
   return (
@@ -23,7 +60,6 @@ function RecipeDetail() {
           }}
         />
 
-        {/* nút quay lại nổi trên ảnh */}
         <Link
           to="/"
           className="btn btn-light position-absolute top-0 start-0 m-3 shadow-sm"
@@ -31,7 +67,6 @@ function RecipeDetail() {
           ← Quay lại
         </Link>
 
-        {/* title overlay */}
         <div
           className="position-absolute bottom-0 start-0 w-100 p-3"
           style={{
@@ -41,11 +76,12 @@ function RecipeDetail() {
           }}
         >
           <h2 className="text-white mb-1">{recipe.title}</h2>
-          <span className="badge bg-warning text-dark">{recipe.cuisine}</span>
+          <span className="badge bg-warning text-dark">
+            {recipe.cuisine}
+          </span>
         </div>
       </div>
 
-      {/* content */}
       <div className="row g-4">
         {/* nguyên liệu */}
         <div className="col-lg-4">
@@ -54,7 +90,7 @@ function RecipeDetail() {
               <h5 className="mb-3">🧾 Nguyên liệu</h5>
 
               <div className="d-flex flex-wrap gap-2">
-                {recipe.ingredients.map((i, index) => (
+                {recipe.ingredients?.map((i, index) => (
                   <span
                     key={index}
                     className="badge rounded-pill text-bg-light border"
@@ -74,15 +110,17 @@ function RecipeDetail() {
               <h5 className="mb-3">👨‍🍳 Hướng dẫn từng bước</h5>
 
               <ol className="list-group">
-                {recipe.steps.map((step, index) => {
-                  const text = typeof step === "string" ? step : step.text;
+                {recipe.steps?.map((step, index) => {
+                  const text =
+                    typeof step === "string" ? step : step?.text;
+
                   const image =
                     typeof step === "string"
                       ? "https://images.unsplash.com/photo-1546069901-ba9599a7e63c"
-                      : step.image;
+                      : step?.image;
 
                   return (
-                    <li className="list-group-item">
+                    <li key={index} className="list-group-item">
                       <div className="row g-3 align-items-start">
                         <div className="col-md-4">
                           <img
