@@ -130,7 +130,6 @@ function RecipeDetail() {
                             style={{
                               objectFit: "cover",
                               width: "100%",
-                              height: 120,
                             }}
                           />
                         </div>
