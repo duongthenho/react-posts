@@ -23,17 +23,17 @@ function Footer() {
             <h6 className="fw-semibold mb-3">Khám phá</h6>
             <ul className="list-unstyled small">
               <li className="mb-2">
-                <a href="#" className="text-decoration-none text-secondary">
+                <a href="/" className="text-decoration-none text-secondary">
                   Trang chủ
                 </a>
               </li>
               <li className="mb-2">
-                <a href="#" className="text-decoration-none text-secondary">
+                <a href="/" className="text-decoration-none text-secondary">
                   Công thức
                 </a>
               </li>
               <li>
-                <a href="#" className="text-decoration-none text-secondary">
+                <a href="/about" className="text-decoration-none text-secondary">
                   Giới thiệu
                 </a>
               </li>

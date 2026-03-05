@@ -31,15 +31,25 @@ function Header() {
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink
+                to="/about"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " fw-semibold text-primary" : "")
+                }
+              >
                 Giới thiệu
-              </a>
+              </NavLink>
             </li>
 
             <li className="nav-item">
-              <a className="nav-link" href="#">
+              <NavLink
+                to="/contact"
+                className={({ isActive }) =>
+                  "nav-link" + (isActive ? " fw-semibold text-primary" : "")
+                }
+              >
                 Liên hệ
-              </a>
+              </NavLink>
             </li>
           </ul>
         </div>
